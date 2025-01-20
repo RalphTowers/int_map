@@ -22,8 +22,6 @@
 
         .info-box {
             position: absolute;
-            top: 10px;
-            left: calc(100% + 20px);
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -41,7 +39,7 @@
 <body>
     <div class="container">
         <!-- Imagen principal -->
-        <img src="Untitled_Artwork.png" usemap="#image-map" alt="Mapa interactivo">
+        <img src="./Untitled_Artwork.png" usemap="#image-map" alt="Mapa interactivo">
 
         <!-- Ventana de información -->
         <div class="info-box" id="info-box">
@@ -78,8 +76,13 @@
 
                 const rect = e.target.getBoundingClientRect();
                 infoBox.style.display = 'block';
-                infoBox.style.top = `${rect.top + window.scrollY}px`;
-                infoBox.style.left = `${rect.right + 10}px`;
+
+                // Posicionar el recuadro a la derecha del área
+                const boxTop = rect.top + window.scrollY;
+                const boxLeft = rect.right + 10;
+
+                infoBox.style.top = `${boxTop}px`;
+                infoBox.style.left = `${boxLeft}px`;
             });
 
             area.addEventListener('mouseleave', () => {
