@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .info-box {
+            position: absolute;
+            top: 10px;
+            left: calc(100% + 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            width: 200px;
+        }
+
+        .info-box h3 {
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Imagen principal -->
+        <img src="Untitled_Artwork.png" usemap="#image-map" alt="Mapa interactivo">
+
+        <!-- Ventana de información -->
+        <div class="info-box" id="info-box">
+            <h3 id="info-title">Título</h3>
+            <p id="info-description">Descripción</p>
+        </div>
+
+        <!-- Mapa de imagen -->
+        <map name="image-map">
+            <area target="" alt="Monarch" title="Monarch" href="#" coords="395,1458,475,1426,566,1447,640,1367,704,1330,715,1404,699,1452,710,1506,667,1532,614,1527,587,1559,528,1580,502,1522,459,1522,416,1490" shape="poly" 
+                data-description="La mariposa Monarca es conocida por sus largas migraciones anuales.">
+            <area target="" alt="Frog" title="Frog" href="#" coords="3720,1954,3752,1901,3794,1826,3869,1799,3933,1751,4008,1741,4029,1794,3997,1842,3970,1896,4024,1949,3981,2013,3842,2013,3778,1986" shape="poly" 
+                data-description="La rana es un anfibio que vive en ambientes húmedos y tiene una piel lisa.">
+            <area target="" alt="Palace" title="Palace" href="#" coords="2311,296,2828,627" shape="rect" 
+                data-description="Un hermoso palacio construido en el siglo XVIII.">
+            <area target="" alt="Cinema" title="Cinema" href="#" coords="534,251,136" shape="circle" 
+                data-description="Un cine antiguo que proyecta películas clásicas.">
+        </map>
+    </div>
+
+    <script>
+        const areas = document.querySelectorAll('area');
+        const infoBox = document.getElementById('info-box');
+        const infoTitle = document.getElementById('info-title');
+        const infoDescription = document.getElementById('info-description');
+
+        areas.forEach(area => {
+            area.addEventListener('mouseenter', (e) => {
+                const title = area.getAttribute('title');
+                const description = area.getAttribute('data-description');
+
+                infoTitle.textContent = title;
+                infoDescription.textContent = description;
+
+                const rect = e.target.getBoundingClientRect();
+                infoBox.style.display = 'block';
+                infoBox.style.top = `${rect.top + window.scrollY}px`;
+                infoBox.style.left = `${rect.right + 10}px`;
+            });
+
+            area.addEventListener('mouseleave', () => {
+                infoBox.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
