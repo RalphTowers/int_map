@@ -12,12 +12,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #f4f4f4;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
+            transform: scale(1);
+            transform-origin: top left;
         }
 
         .info-box {
@@ -37,6 +40,12 @@
 
         .info-box p {
             margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .info-box {
+                width: 150px;
+            }
         }
     </style>
 </head>
@@ -70,6 +79,10 @@
         const infoTitle = document.getElementById('info-title');
         const infoDescription = document.getElementById('info-description');
 
+        const scaleFactor = 0.25; // Zoom inicial al 25%
+        const container = document.querySelector('.container');
+        container.style.transform = `scale(${scaleFactor})`;
+
         areas.forEach(area => {
             area.addEventListener('mouseenter', (e) => {
                 const title = area.getAttribute('title');
@@ -81,9 +94,13 @@
                 const rect = e.target.getBoundingClientRect();
                 infoBox.style.display = 'block';
 
-                // Posicionar el recuadro a la derecha del área
+                // Ajustar la posición para evitar que salga del margen izquierdo
                 const boxTop = rect.top + window.scrollY;
-                const boxLeft = rect.right + 10;
+                let boxLeft = rect.right + 10;
+
+                if (boxLeft + infoBox.offsetWidth > window.innerWidth) {
+                    boxLeft = rect.left - infoBox.offsetWidth - 10;
+                }
 
                 infoBox.style.top = `${boxTop}px`;
                 infoBox.style.left = `${boxLeft}px`;
